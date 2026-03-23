@@ -1,0 +1,13 @@
+{
+  "name": "residence-harmonie-mock",
+  "version": "1.0.0",
+  "description": "Mock server for Residence Harmonie API",
+  "scripts": {
+    "mock:prism": "prism mock ../openapi.yaml -p 4010",
+    "mock:json-server": "json-server --watch db.json --port 3001 --routes routes.json"
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^5.12.0",
+    "json-server": "^0.17.4"
+  }
+}

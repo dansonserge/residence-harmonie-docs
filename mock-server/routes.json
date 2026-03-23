@@ -1,0 +1,10 @@
+{
+  "/residences/:residenceId/dashboard/kpis": "/kpis",
+  "/residences/:residenceId/dashboard/charts/tasks-by-period": "/tasksByPeriod",
+  "/residences/:residenceId/dashboard/charts/completion-by-employee": "/completionByEmployee",
+  "/residences/:residenceId/dashboard/charts/top-residents": "/topResidents",
+  "/residences/:residenceId/dashboard/tables/pending-tasks": "/pendingTasks",
+  "/residences/:residenceId/dashboard/tables/recent-observations": "/recentObservations",
+  "/residences/:residenceId/residents/:residentId/tasks": "/tasks?residentId=:residentId",
+  "/residences/:residenceId/residents/:residentId/tasks/summary": "/tasksSummary?residentId=:residentId"
+}

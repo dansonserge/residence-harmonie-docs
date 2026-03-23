@@ -1,0 +1,146 @@
+{
+  "tenants": [
+    { "id": "residence-1", "name": "Résidence Harmonie", "active": true },
+    { "id": "residence-2", "name": "Le Soleil Levant", "active": true }
+  ],
+  "subscriptions": [
+    { "id": "sub-1", "tenantId": "residence-1", "plan": "Premium", "status": "Active" },
+    { "id": "sub-2", "tenantId": "residence-2", "plan": "Basic", "status": "Active" }
+  ],
+  "billing": [
+    { "tenantId": "residence-1", "amountDue": 1500, "nextBillingDate": "2026-04-01T00:00:00Z" }
+  ],
+  "rooms": [
+    { "id": "r101", "residenceId": "residence-1", "number": "101", "capacity": 1 },
+    { "id": "r102", "residenceId": "residence-1", "number": "102", "capacity": 1 },
+    { "id": "r201", "residenceId": "residence-1", "number": "201", "capacity": 2 },
+    { "id": "r302", "residenceId": "residence-1", "number": "302", "capacity": 1 },
+    { "id": "r401", "residenceId": "residence-2", "number": "401", "capacity": 1 }
+  ],
+  "periods": [
+    { "id": "p1", "residenceId": "residence-1", "name": "Morning", "startTime": "06:00", "endTime": "11:00" },
+    { "id": "p2", "residenceId": "residence-1", "name": "Lunch", "startTime": "11:00", "endTime": "14:00" },
+    { "id": "p3", "residenceId": "residence-1", "name": "Afternoon", "startTime": "14:00", "endTime": "18:00" },
+    { "id": "p1b", "residenceId": "residence-2", "name": "Matin", "startTime": "07:00", "endTime": "12:00" }
+  ],
+  "shifts": [
+    { "id": "s1", "residenceId": "residence-1", "name": "Day Shift (7AM - 3PM)" },
+    { "id": "s2", "residenceId": "residence-1", "name": "Evening Shift (3PM - 11PM)" }
+  ],
+  "users": [
+    { "id": "u1", "residenceId": "residence-1", "name": "Emma Roy", "role": "Employee", "status": "Active" },
+    { "id": "u2", "residenceId": "residence-1", "name": "Marc Gagné", "role": "Manager", "status": "Active" },
+    { "id": "u3", "residenceId": "residence-2", "name": "Sophie Bernard", "role": "Admin", "status": "Active" }
+  ],
+  "residents": [
+    {
+      "id": "res-1",
+      "residenceId": "residence-1",
+      "name": "Jean Dupuis",
+      "roomNumber": "201",
+      "photoUrl": "https://i.pravatar.cc/150?u=jean",
+      "doneTasksCount": 3,
+      "totalTasksCount": 6,
+      "alerts": { "texture": "Regular", "allergies": ["Peanuts", "Latex"], "mobility": "Walker", "risk": "Fall" }
+    },
+    {
+      "id": "res-2",
+      "residenceId": "residence-1",
+      "name": "Lucie Tremblay",
+      "roomNumber": "205",
+      "photoUrl": "https://i.pravatar.cc/150?u=lucie",
+      "doneTasksCount": 2,
+      "totalTasksCount": 5,
+      "alerts": { "texture": "Soft Texture", "allergies": [], "mobility": "Mobility Aid", "risk": "Low" }
+    },
+    {
+      "id": "res-3",
+      "residenceId": "residence-2",
+      "name": "Robert Gagnon",
+      "roomNumber": "102",
+      "doneTasksCount": 5,
+      "totalTasksCount": 6,
+      "alerts": { "texture": "Diabetic", "allergies": ["No Salt"], "mobility": "Independent", "risk": "Low" }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "residenceId": "residence-1",
+      "residentId": "res-1",
+      "name": "Lever",
+      "description": "Réveil à 7h30",
+      "duration": "20 min",
+      "priority": "Haute",
+      "status": "Done",
+      "period": "Morning",
+      "observation": "Le réveil s'est bien passé."
+    },
+    {
+      "id": "t2",
+      "residenceId": "residence-1",
+      "residentId": "res-1",
+      "name": "Brossage de dents",
+      "description": "Nettoyage complet",
+      "duration": "15 min",
+      "priority": "Normal",
+      "status": "In Progress",
+      "period": "Morning"
+    },
+    {
+      "id": "t3",
+      "residenceId": "residence-1",
+      "residentId": "res-1",
+      "name": "Douche",
+      "description": "Douche assistée",
+      "duration": "30 min",
+      "priority": "Haute",
+      "status": "Refused",
+      "period": "Morning"
+    },
+    {
+      "id": "t4",
+      "residenceId": "residence-1",
+      "residentId": "res-1",
+      "name": "Déjeuner",
+      "description": "Texture régulière",
+      "duration": "30 min",
+      "priority": "Moyenne",
+      "status": "Done",
+      "period": "Morning"
+    },
+    {
+      "id": "t5",
+      "residenceId": "residence-2",
+      "residentId": "res-3",
+      "name": "Exercice",
+      "description": "Physiotherapy",
+      "duration": "45 min",
+      "priority": "Normale",
+      "status": "Pending",
+      "period": "Afternoon"
+    }
+  ],
+  "dashboard-kpis": [
+    {
+      "id": "k1",
+      "residenceId": "residence-1",
+      "activeResidents": 24,
+      "tasksCompleted": 156,
+      "completionRate": 92,
+      "pendingTasks": 12,
+      "refusedTasks": 3,
+      "observationsToday": 8
+    }
+  ],
+  "settings": [
+    {
+      "id": "set-1",
+      "residenceId": "residence-1",
+      "residenceName": "Résidence Harmonie",
+      "address": "123 Rue des Pins, Montréal, QC",
+      "language": "Français",
+      "logoUrl": "https://example.com/logo.png"
+    }
+  ]
+}

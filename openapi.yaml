@@ -1,0 +1,722 @@
+openapi: 3.0.3
+info:
+  title: Residence Management System API
+  version: 1.0.0
+  description: API for managing a multi-tenant SaaS Residence System.
+
+servers:
+  - url: http://localhost:4010
+    description: Prism Mock Server
+  - url: http://localhost:3001
+    description: JSON Server Backend
+
+components:
+  parameters:
+    ResidenceIdParam:
+      name: residenceId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The ID of the residence (tenant).
+    PeriodQuery:
+      name: period
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [Morning, Mid-morning, Lunch, Afternoon, Dinner, Evening, All]
+    ShiftQuery:
+      name: shift
+      in: query
+      required: false
+      schema:
+        type: string
+
+  schemas:
+    # --- Super Admin Schemas ---
+    Tenant:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        active: { type: boolean }
+    Subscription:
+      type: object
+      properties:
+        id: { type: string }
+        tenantId: { type: string }
+        plan: { type: string }
+        status: { type: string }
+    BillingInfo:
+      type: object
+      properties:
+        tenantId: { type: string }
+        amountDue: { type: number }
+        nextBillingDate: { type: string, format: date-time }
+    GlobalMetrics:
+      type: object
+      properties:
+        totalTenants: { type: integer }
+        activeUsers: { type: integer }
+
+    # --- Admin Schemas ---
+    AdminDashboard:
+      type: object
+      properties:
+        systemHealth: { type: string }
+        activeAlerts: { type: integer }
+    ResidenceSettings:
+      type: object
+      properties:
+        residenceName: { type: string }
+        address: { type: string }
+        language: { type: string }
+        logoUrl: { type: string }
+    SystemLog:
+      type: object
+      properties:
+        id: { type: string }
+        timestamp: { type: string, format: date-time }
+        message: { type: string }
+        level: { type: string }
+
+    Room:
+      type: object
+      properties:
+        id: { type: string }
+        number: { type: string }
+        capacity: { type: integer }
+    Period:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        startTime: { type: string }
+        endTime: { type: string }
+    Shift:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    Priority:
+      type: object
+      properties:
+        id: { type: string }
+        level: { type: string }
+        color: { type: string }
+    Frequency:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    Risk:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    FoodTexture:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    Allergy:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    TaskCatalogItem:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        category: { type: string }
+        defaultDuration: { type: integer }
+        priority: { type: string }
+    User:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        role: { type: string, enum: [Admin, Manager, Employee] }
+        status: { type: string, enum: [Active, Inactive] }
+
+    # --- Employee Schemas ---
+    ResidentAlerts:
+      type: object
+      properties:
+        texture: { type: string }
+        allergies:
+          type: array
+          items: { type: string }
+        mobility: { type: string }
+        risk: { type: string }
+    Resident:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        roomNumber: { type: string }
+        photoUrl: { type: string }
+        doneTasksCount: { type: integer }
+        totalTasksCount: { type: integer }
+        alerts:
+          $ref: '#/components/schemas/ResidentAlerts'
+    Task:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        duration: { type: string }
+        priority: { type: string }
+        status: { type: string, enum: [Done, In Progress, Refused, Not Applicable, Pending] }
+        period: { type: string }
+        observation: { type: string }
+    TaskStatusUpdate:
+      type: object
+      properties:
+        status: { type: string, enum: [Done, In Progress, Refused, Not Applicable] }
+        observation: { type: string }
+    TaskSummaryCount:
+      type: object
+      properties:
+        done: { type: integer }
+        pending: { type: integer }
+        refused: { type: integer }
+
+    # --- Manager Schemas ---
+    PaginatedTasks:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        total: { type: integer }
+        page: { type: integer }
+    PaginatedObservations:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObservationItem'
+        total: { type: integer }
+        page: { type: integer }
+    DashboardKPIs:
+      type: object
+      properties:
+        activeResidents: { type: integer }
+        tasksCompleted: { type: integer }
+        completionRate: { type: number }
+        pendingTasks: { type: integer }
+        refusedTasks: { type: integer }
+        observationsToday: { type: integer }
+    PendingTaskItem:
+      type: object
+      properties:
+        residentName: { type: string }
+        roomNumber: { type: string }
+        taskName: { type: string }
+        period: { type: string }
+        dueTime: { type: string }
+    ObservationItem:
+      type: object
+      properties:
+        residentName: { type: string }
+        roomNumber: { type: string }
+        observationText: { type: string }
+        time: { type: string }
+    ReportOutput:
+      type: object
+      properties:
+        reportUrl: { type: string }
+        generatedAt: { type: string, format: date-time }
+
+paths:
+  # ==========================================
+  # 1. SUPER ADMIN ENDPOINTS (Root Level)
+  # ==========================================
+  /tenants:
+    get:
+      tags: [Super Admin]
+      responses:
+        '200':
+          description: List of tenants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tenant'
+    post:
+      tags: [Super Admin]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tenant'
+      responses:
+        '201':
+          description: Created
+  /subscriptions:
+    get:
+      tags: [Super Admin]
+      responses:
+        '200':
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+    put:
+      tags: [Super Admin]
+      responses:
+        '200':
+          description: Updated subscription
+  /billing:
+    get:
+      tags: [Super Admin]
+      responses:
+        '200':
+          description: Global billing info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingInfo'
+  /metrics/global:
+    get:
+      tags: [Super Admin]
+      responses:
+        '200':
+          description: Global metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalMetrics'
+
+  # ==========================================
+  # 2. ADMIN ENDPOINTS (Residence Level)
+  # ==========================================
+  /residences/{residenceId}/admin/dashboard:
+    get:
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+      responses:
+        '200':
+          description: Admin dashboard overview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminDashboard'
+  /residences/{residenceId}/settings:
+    get:
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+      responses:
+        '200':
+          description: Get settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidenceSettings'
+    put:
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+      responses:
+        '200':
+          description: Update settings
+  /residences/{residenceId}/logs:
+    get:
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+      responses:
+        '200':
+          description: System logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SystemLog'
+
+  # Catalogs (CRUD pattern applied to one, repeated for brevity but physically present)
+  /residences/{residenceId}/rooms:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Room' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/periods:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Period' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/shifts:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Shift' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/priorities:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Priority' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/frequencies:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Frequency' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/risks:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Risk' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/textures:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/FoodTexture' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/allergies:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Allergy' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/task-catalog:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/TaskCatalogItem' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+  /residences/{residenceId}/users:
+    get:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '200': { description: 'OK', content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/User' } } } } } }
+    post:
+      tags: [Admin]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses: { '201': { description: 'Created' } }
+
+  # ==========================================
+  # 3. EMPLOYEE ENDPOINTS (Daily Task Execution)
+  # ==========================================
+  /residences/{residenceId}/context/current:
+    get:
+      tags: [Employee]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Current date and shift context
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentDate: { type: string, format: date }
+                  shiftContext: { type: string }
+  /residences/{residenceId}/users/me/history:
+    get:
+      tags: [Employee]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Logged-in user task history
+  /residences/{residenceId}/users/me/profile:
+    get:
+      tags: [Employee]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Logged-in user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /residences/{residenceId}/residents:
+    get:
+      tags: [Employee]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: List of residents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resident'
+  /residences/{residenceId}/residents/{residentId}/tasks:
+    get:
+      tags: [Employee]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - name: residentId
+          in: path
+          required: true
+          schema: { type: string }
+        - $ref: '#/components/parameters/PeriodQuery'
+      responses:
+        '200':
+          description: Tasks categorized by period
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /residences/{residenceId}/residents/{residentId}/tasks/summary:
+    get:
+      tags: [Employee]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - name: residentId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Returns footer counts for tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskSummaryCount'
+  /residences/{residenceId}/residents/{residentId}/tasks/{taskId}:
+    patch:
+      tags: [Employee]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - name: residentId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: taskId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskStatusUpdate'
+      responses:
+        '200':
+          description: Updated task status
+  /residences/{residenceId}/residents/{residentId}/tasks/batch:
+    put:
+      tags: [Employee]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - name: residentId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Save all tasks
+          
+  # ==========================================
+  # 4. MANAGER ENDPOINTS (Dashboard & Reports)
+  # ==========================================
+  /residences/{residenceId}/manager/tasks:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Full page paginated tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTasks'
+  /residences/{residenceId}/manager/observations:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Full page paginated observations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedObservations'
+  /residences/{residenceId}/dashboard/kpis:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Aggregate KPI counts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardKPIs'
+  /residences/{residenceId}/dashboard/charts/tasks-by-period:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Tasks by period chart data
+  /residences/{residenceId}/dashboard/charts/completion-by-employee:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Completion rate by employee chart data
+  /residences/{residenceId}/dashboard/charts/top-residents:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Tasks by resident top 5
+  /residences/{residenceId}/dashboard/tables/pending-tasks:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Pending tasks table data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PendingTaskItem'
+  /residences/{residenceId}/dashboard/tables/recent-observations:
+    get:
+      tags: [Manager]
+      parameters:
+        - $ref: '#/components/parameters/ResidenceIdParam'
+        - $ref: '#/components/parameters/PeriodQuery'
+        - $ref: '#/components/parameters/ShiftQuery'
+      responses:
+        '200':
+          description: Recent observations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObservationItem'
+  /residences/{residenceId}/reports/daily:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Daily By Resident
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOutput'
+  /residences/{residenceId}/reports/employee:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Employee Today
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOutput'
+  /residences/{residenceId}/reports/refusals:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Refusals This Week
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOutput'
+  /residences/{residenceId}/reports/monthly:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Monthly Performance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOutput'
+  /residences/{residenceId}/reports/export/pdf:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: PDF export blob
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /residences/{residenceId}/reports/print:
+    get:
+      tags: [Manager]
+      parameters: [{ $ref: '#/components/parameters/ResidenceIdParam' }]
+      responses:
+        '200':
+          description: Print endpoint data collection
