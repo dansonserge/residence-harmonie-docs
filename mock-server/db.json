@@ -142,5 +142,87 @@
       "language": "Français",
       "logoUrl": "https://example.com/logo.png"
     }
-  ]
+  ],
+  "admin-dashboard-residence-1": {
+    "id": "ad-1",
+    "residenceId": "residence-1",
+    "generalSettings": {
+      "residenceName": "Résidence Harmonie",
+      "address": "123 Rue des Pins, Montréal, QC",
+      "language": "Français",
+      "logoUrl": "https://example.com/logo.png"
+    },
+    "periodsCount": 6,
+    "shiftsCount": 3,
+    "prioritiesCount": 5,
+    "frequenciesCount": 4,
+    "catalogItems": [
+      { "name": "Lever", "category": "Hygiène", "duration": "15 min", "priority": "Haute" },
+      { "name": "Douche", "category": "Hygiène", "duration": "30 min", "priority": "Haute" },
+      { "name": "Déjeuner", "category": "Repas", "duration": "30 min", "priority": "Haute" }
+    ],
+    "users": [
+      { "name": "Marie Martin", "role": "Employee", "status": "Active" },
+      { "name": "Paul Dubois", "role": "Manager", "status": "Active" },
+      { "name": "Sophie Bernard", "role": "Admin", "status": "Active" }
+    ]
+  },
+  "manager-dashboard-residence-1": {
+    "id": "md-1",
+    "residenceId": "residence-1",
+    "kpis": {
+      "activeResidents": 24,
+      "tasksCompleted": 156,
+      "completionRate": 92,
+      "pendingTasks": 12,
+      "refusedTasks": 3,
+      "observationsToday": 8
+    },
+    "charts": {
+      "tasksByPeriod": [
+        { "period": "Morning", "rate": 85 },
+        { "period": "Mid-Morning", "rate": 90 },
+        { "period": "Lunch", "rate": 78 },
+        { "period": "Afternoon", "rate": 88 },
+        { "period": "Dinner", "rate": 92 },
+        { "period": "Evening", "rate": 95 }
+      ],
+      "completionByEmployee": {
+        "completed": 156,
+        "pending": 12,
+        "refused": 3,
+        "rate": 92
+      },
+      "tasksByResident": [
+        { "name": "Jean Dupuis", "completed": 6, "total": 6 },
+        { "name": "Lucie Tremblay", "completed": 5, "total": 6 },
+        { "name": "Robert Gagnon", "completed": 4, "total": 6 },
+        { "name": "Monique Rousseau", "completed": 3, "total": 6 },
+        { "name": "Pierre Martin", "completed": 6, "total": 6 }
+      ]
+    },
+    "tables": {
+      "pendingTasks": [
+        { "resident": "Monique R. (302)", "task": "Douche", "period": "Morning", "dueTime": "10:00 AM" },
+        { "resident": "Lucie T. (205)", "task": "Diner", "period": "Lunch", "dueTime": "12:00 PM" },
+        { "resident": "Robert G. (102)", "task": "Exercice", "period": "Afternoon", "dueTime": "2:00 PM" }
+      ],
+      "recentObservations": [
+        { "resident": "Jean D. (201)", "text": "Bon appétit au déjeuner", "time": "9:15 AM", "status": "normal" },
+        { "resident": "Robert G. (102)", "text": "Refus de la douche", "time": "8:45 AM", "status": "critical" },
+        { "resident": "Lucie T. (205)", "text": "Fatigue signalée", "time": "10:30 AM", "status": "normal" }
+      ]
+    },
+    "quickReports": [
+      { "id": "rep1", "name": "Daily Report", "subtitle": "- By Resident" },
+      { "id": "rep2", "name": "Employee Report", "subtitle": "- Today" },
+      { "id": "rep3", "name": "Refusals Report", "subtitle": "- This Week" },
+      { "id": "rep4", "name": "Monthly Performance", "subtitle": "- This Month" }
+    ]
+  },
+  "resident-1-task-summary": {
+    "done": 3,
+    "pending": 1,
+    "refused": 0
+  }
 }

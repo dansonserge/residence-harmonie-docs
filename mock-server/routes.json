@@ -5,6 +5,11 @@
   "/residences/:residenceId/dashboard/charts/top-residents": "/topResidents",
   "/residences/:residenceId/dashboard/tables/pending-tasks": "/pendingTasks",
   "/residences/:residenceId/dashboard/tables/recent-observations": "/recentObservations",
+  "/residences/residence-1/residents/res-1/tasks": "/tasks?residentId=res-1",
+  "/residences/residence-1/residents/res-1/tasks/summary": "/resident-1-task-summary",
+  "/residences/residence-1/admin/dashboard": "/admin-dashboard-residence-1",
+  "/residences/residence-1/manager/dashboard": "/manager-dashboard-residence-1",
+  "/residences/:residenceId/residents/:residentId/tasks/summary": "/tasksSummary?residentId=:residentId",
   "/residences/:residenceId/residents/:residentId/tasks": "/tasks?residentId=:residentId",
-  "/residences/:residenceId/residents/:residentId/tasks/summary": "/tasksSummary?residentId=:residentId"
+  "/residences/:residenceId/admin/dashboard": "/admin-dashboards?residenceId=:residenceId"
 }

@@ -1,0 +1,13 @@
+# Dependency directories
+mock-server/node_modules/
+*/node_modules/
+# Local env files
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
