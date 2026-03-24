@@ -119,6 +119,62 @@
       "priority": "Normale",
       "status": "Pending",
       "period": "Afternoon"
+    },
+    {
+      "id": "t6",
+      "residenceId": "residence-1",
+      "residentId": "res-2",
+      "name": "Réveil",
+      "description": "Réveil assisté à 8h00",
+      "duration": "15 min",
+      "priority": "Haute",
+      "status": "Done",
+      "period": "Morning",
+      "observation": "Réveil calme."
+    },
+    {
+      "id": "t7",
+      "residenceId": "residence-1",
+      "residentId": "res-2",
+      "name": "Douche",
+      "description": "Douche texture douce",
+      "duration": "30 min",
+      "priority": "Haute",
+      "status": "In Progress",
+      "period": "Morning"
+    },
+    {
+      "id": "t8",
+      "residenceId": "residence-1",
+      "residentId": "res-2",
+      "name": "Déjeuner",
+      "description": "Texture douce",
+      "duration": "30 min",
+      "priority": "Moyenne",
+      "status": "Pending",
+      "period": "Morning"
+    },
+    {
+      "id": "t9",
+      "residenceId": "residence-1",
+      "residentId": "res-2",
+      "name": "Physiothérapie",
+      "description": "Exercices de mobilité",
+      "duration": "45 min",
+      "priority": "Normal",
+      "status": "Pending",
+      "period": "Afternoon"
+    },
+    {
+      "id": "t10",
+      "residenceId": "residence-1",
+      "residentId": "res-2",
+      "name": "Diner",
+      "description": "Repas du soir",
+      "duration": "30 min",
+      "priority": "Moyenne",
+      "status": "Done",
+      "period": "Dinner"
     }
   ],
   "dashboard-kpis": [
