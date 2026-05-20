@@ -1,36 +1,133 @@
 {
   "tenants": [
-    { "id": "residence-1", "name": "Résidence Harmonie", "active": true },
-    { "id": "residence-2", "name": "Le Soleil Levant", "active": true }
+    {
+      "id": "residence-1",
+      "name": "Résidence Harmonie",
+      "active": true
+    },
+    {
+      "id": "residence-2",
+      "name": "Le Soleil Levant",
+      "active": true
+    }
   ],
   "subscriptions": [
-    { "id": "sub-1", "tenantId": "residence-1", "plan": "Premium", "status": "Active" },
-    { "id": "sub-2", "tenantId": "residence-2", "plan": "Basic", "status": "Active" }
+    {
+      "id": "sub-1",
+      "tenantId": "residence-1",
+      "plan": "Premium",
+      "status": "Active"
+    },
+    {
+      "id": "sub-2",
+      "tenantId": "residence-2",
+      "plan": "Basic",
+      "status": "Active"
+    }
   ],
   "billing": [
-    { "tenantId": "residence-1", "amountDue": 1500, "nextBillingDate": "2026-04-01T00:00:00Z" }
+    {
+      "tenantId": "residence-1",
+      "amountDue": 1500,
+      "nextBillingDate": "2026-04-01T00:00:00Z"
+    }
   ],
   "rooms": [
-    { "id": "r101", "residenceId": "residence-1", "number": "101", "capacity": 1 },
-    { "id": "r102", "residenceId": "residence-1", "number": "102", "capacity": 1 },
-    { "id": "r201", "residenceId": "residence-1", "number": "201", "capacity": 2 },
-    { "id": "r302", "residenceId": "residence-1", "number": "302", "capacity": 1 },
-    { "id": "r401", "residenceId": "residence-2", "number": "401", "capacity": 1 }
+    {
+      "id": "r101",
+      "residenceId": "residence-1",
+      "number": "101",
+      "capacity": 1
+    },
+    {
+      "id": "r102",
+      "residenceId": "residence-1",
+      "number": "102",
+      "capacity": 1
+    },
+    {
+      "id": "r201",
+      "residenceId": "residence-1",
+      "number": "201",
+      "capacity": 2
+    },
+    {
+      "id": "r302",
+      "residenceId": "residence-1",
+      "number": "302",
+      "capacity": 1
+    },
+    {
+      "id": "r401",
+      "residenceId": "residence-2",
+      "number": "401",
+      "capacity": 1
+    }
   ],
   "periods": [
-    { "id": "p1", "residenceId": "residence-1", "name": "Morning", "startTime": "06:00", "endTime": "11:00" },
-    { "id": "p2", "residenceId": "residence-1", "name": "Lunch", "startTime": "11:00", "endTime": "14:00" },
-    { "id": "p3", "residenceId": "residence-1", "name": "Afternoon", "startTime": "14:00", "endTime": "18:00" },
-    { "id": "p1b", "residenceId": "residence-2", "name": "Matin", "startTime": "07:00", "endTime": "12:00" }
+    {
+      "id": "p1",
+      "residenceId": "residence-1",
+      "name": "Morning",
+      "startTime": "06:00",
+      "endTime": "11:00"
+    },
+    {
+      "id": "p2",
+      "residenceId": "residence-1",
+      "name": "Lunch",
+      "startTime": "11:00",
+      "endTime": "14:00"
+    },
+    {
+      "id": "p3",
+      "residenceId": "residence-1",
+      "name": "Afternoon",
+      "startTime": "14:00",
+      "endTime": "18:00"
+    },
+    {
+      "id": "p1b",
+      "residenceId": "residence-2",
+      "name": "Matin",
+      "startTime": "07:00",
+      "endTime": "12:00"
+    }
   ],
   "shifts": [
-    { "id": "s1", "residenceId": "residence-1", "name": "Day Shift (7AM - 3PM)" },
-    { "id": "s2", "residenceId": "residence-1", "name": "Evening Shift (3PM - 11PM)" }
+    {
+      "id": "s1",
+      "residenceId": "residence-1",
+      "name": "Day Shift (7AM - 3PM)"
+    },
+    {
+      "id": "s2",
+      "residenceId": "residence-1",
+      "name": "Evening Shift (3PM - 11PM)"
+    }
   ],
   "users": [
-    { "id": "u1", "residenceId": "residence-1", "name": "Emma Roy", "role": "Employee", "status": "Active" },
-    { "id": "u2", "residenceId": "residence-1", "name": "Marc Gagné", "role": "Manager", "status": "Active" },
-    { "id": "u3", "residenceId": "residence-2", "name": "Sophie Bernard", "role": "Admin", "status": "Active" }
+    {
+      "id": "u1",
+      "residenceId": "residence-1",
+      "name": "Emma Roy",
+      "role": "Employee",
+      "status": "Active"
+    },
+    {
+      "id": "u2",
+      "residenceId": "residence-1",
+      "name": "Marc Gagné",
+      "role": "Manager",
+      "status": "Active"
+    },
+    {
+      "id": "u3",
+      "residenceId": "residence-2",
+      "name": "Sophie Bernard",
+      "role": "Admin",
+      "status": "Active"
+    }
   ],
   "residents": [
     {
@@ -41,7 +138,15 @@
       "photoUrl": "https://i.pravatar.cc/150?u=jean",
       "doneTasksCount": 3,
       "totalTasksCount": 6,
-      "alerts": { "texture": "Regular", "allergies": ["Peanuts", "Latex"], "mobility": "Walker", "risk": "Fall" }
+      "alerts": {
+        "texture": "Regular",
+        "allergies": [
+          "Peanuts",
+          "Latex"
+        ],
+        "mobility": "Walker",
+        "risk": "Fall"
+      }
     },
     {
       "id": "res-2",
@@ -51,7 +156,12 @@
       "photoUrl": "https://i.pravatar.cc/150?u=lucie",
       "doneTasksCount": 2,
       "totalTasksCount": 5,
-      "alerts": { "texture": "Soft Texture", "allergies": [], "mobility": "Mobility Aid", "risk": "Low" }
+      "alerts": {
+        "texture": "Soft Texture",
+        "allergies": [],
+        "mobility": "Mobility Aid",
+        "risk": "Low"
+      }
     },
     {
       "id": "res-3",
@@ -60,7 +170,14 @@
       "roomNumber": "102",
       "doneTasksCount": 5,
       "totalTasksCount": 6,
-      "alerts": { "texture": "Diabetic", "allergies": ["No Salt"], "mobility": "Independent", "risk": "Low" }
+      "alerts": {
+        "texture": "Diabetic",
+        "allergies": [
+          "No Salt"
+        ],
+        "mobility": "Independent",
+        "risk": "Low"
+      }
     }
   ],
   "tasks": [
@@ -85,7 +202,8 @@
       "duration": "15 min",
       "priority": "Normal",
       "status": "In Progress",
-      "period": "Morning"
+      "period": "Morning",
+      "observation": ""
     },
     {
       "id": "t3",
@@ -95,8 +213,9 @@
       "description": "Douche assistée",
       "duration": "30 min",
       "priority": "Haute",
-      "status": "Refused",
-      "period": "Morning"
+      "status": "Done",
+      "period": "Morning",
+      "observation": "fdfdfdf"
     },
     {
       "id": "t4",
@@ -107,7 +226,8 @@
       "duration": "30 min",
       "priority": "Moyenne",
       "status": "Done",
-      "period": "Morning"
+      "period": "Morning",
+      "observation": ""
     },
     {
       "id": "t5",
@@ -128,7 +248,7 @@
       "description": "Réveil assisté à 8h00",
       "duration": "15 min",
       "priority": "Haute",
-      "status": "Done",
+      "status": "In Progress",
       "period": "Morning",
       "observation": "Réveil calme."
     },
@@ -141,7 +261,8 @@
       "duration": "30 min",
       "priority": "Haute",
       "status": "In Progress",
-      "period": "Morning"
+      "period": "Morning",
+      "observation": ""
     },
     {
       "id": "t8",
@@ -213,14 +334,41 @@
     "prioritiesCount": 5,
     "frequenciesCount": 4,
     "catalogItems": [
-      { "name": "Lever", "category": "Hygiène", "duration": "15 min", "priority": "Haute" },
-      { "name": "Douche", "category": "Hygiène", "duration": "30 min", "priority": "Haute" },
-      { "name": "Déjeuner", "category": "Repas", "duration": "30 min", "priority": "Haute" }
+      {
+        "name": "Lever",
+        "category": "Hygiène",
+        "duration": "15 min",
+        "priority": "Haute"
+      },
+      {
+        "name": "Douche",
+        "category": "Hygiène",
+        "duration": "30 min",
+        "priority": "Haute"
+      },
+      {
+        "name": "Déjeuner",
+        "category": "Repas",
+        "duration": "30 min",
+        "priority": "Haute"
+      }
     ],
     "users": [
-      { "name": "Marie Martin", "role": "Employee", "status": "Active" },
-      { "name": "Paul Dubois", "role": "Manager", "status": "Active" },
-      { "name": "Sophie Bernard", "role": "Admin", "status": "Active" }
+      {
+        "name": "Marie Martin",
+        "role": "Employee",
+        "status": "Active"
+      },
+      {
+        "name": "Paul Dubois",
+        "role": "Manager",
+        "status": "Active"
+      },
+      {
+        "name": "Sophie Bernard",
+        "role": "Admin",
+        "status": "Active"
+      }
     ]
   },
   "manager-dashboard-residence-1": {
@@ -236,12 +384,30 @@
     },
     "charts": {
       "tasksByPeriod": [
-        { "period": "Morning", "rate": 85 },
-        { "period": "Mid-Morning", "rate": 90 },
-        { "period": "Lunch", "rate": 78 },
-        { "period": "Afternoon", "rate": 88 },
-        { "period": "Dinner", "rate": 92 },
-        { "period": "Evening", "rate": 95 }
+        {
+          "period": "Morning",
+          "rate": 85
+        },
+        {
+          "period": "Mid-Morning",
+          "rate": 90
+        },
+        {
+          "period": "Lunch",
+          "rate": 78
+        },
+        {
+          "period": "Afternoon",
+          "rate": 88
+        },
+        {
+          "period": "Dinner",
+          "rate": 92
+        },
+        {
+          "period": "Evening",
+          "rate": 95
+        }
       ],
       "completionByEmployee": {
         "completed": 156,
@@ -250,30 +416,96 @@
         "rate": 92
       },
       "tasksByResident": [
-        { "name": "Jean Dupuis", "completed": 6, "total": 6 },
-        { "name": "Lucie Tremblay", "completed": 5, "total": 6 },
-        { "name": "Robert Gagnon", "completed": 4, "total": 6 },
-        { "name": "Monique Rousseau", "completed": 3, "total": 6 },
-        { "name": "Pierre Martin", "completed": 6, "total": 6 }
+        {
+          "name": "Jean Dupuis",
+          "completed": 6,
+          "total": 6
+        },
+        {
+          "name": "Lucie Tremblay",
+          "completed": 5,
+          "total": 6
+        },
+        {
+          "name": "Robert Gagnon",
+          "completed": 4,
+          "total": 6
+        },
+        {
+          "name": "Monique Rousseau",
+          "completed": 3,
+          "total": 6
+        },
+        {
+          "name": "Pierre Martin",
+          "completed": 6,
+          "total": 6
+        }
       ]
     },
     "tables": {
       "pendingTasks": [
-        { "resident": "Monique R. (302)", "task": "Douche", "period": "Morning", "dueTime": "10:00 AM" },
-        { "resident": "Lucie T. (205)", "task": "Diner", "period": "Lunch", "dueTime": "12:00 PM" },
-        { "resident": "Robert G. (102)", "task": "Exercice", "period": "Afternoon", "dueTime": "2:00 PM" }
+        {
+          "resident": "Monique R. (302)",
+          "task": "Douche",
+          "period": "Morning",
+          "dueTime": "10:00 AM"
+        },
+        {
+          "resident": "Lucie T. (205)",
+          "task": "Diner",
+          "period": "Lunch",
+          "dueTime": "12:00 PM"
+        },
+        {
+          "resident": "Robert G. (102)",
+          "task": "Exercice",
+          "period": "Afternoon",
+          "dueTime": "2:00 PM"
+        }
       ],
       "recentObservations": [
-        { "resident": "Jean D. (201)", "text": "Bon appétit au déjeuner", "time": "9:15 AM", "status": "normal" },
-        { "resident": "Robert G. (102)", "text": "Refus de la douche", "time": "8:45 AM", "status": "critical" },
-        { "resident": "Lucie T. (205)", "text": "Fatigue signalée", "time": "10:30 AM", "status": "normal" }
+        {
+          "resident": "Jean D. (201)",
+          "text": "Bon appétit au déjeuner",
+          "time": "9:15 AM",
+          "status": "normal"
+        },
+        {
+          "resident": "Robert G. (102)",
+          "text": "Refus de la douche",
+          "time": "8:45 AM",
+          "status": "critical"
+        },
+        {
+          "resident": "Lucie T. (205)",
+          "text": "Fatigue signalée",
+          "time": "10:30 AM",
+          "status": "normal"
+        }
       ]
     },
     "quickReports": [
-      { "id": "rep1", "name": "Daily Report", "subtitle": "- By Resident" },
-      { "id": "rep2", "name": "Employee Report", "subtitle": "- Today" },
-      { "id": "rep3", "name": "Refusals Report", "subtitle": "- This Week" },
-      { "id": "rep4", "name": "Monthly Performance", "subtitle": "- This Month" }
+      {
+        "id": "rep1",
+        "name": "Daily Report",
+        "subtitle": "- By Resident"
+      },
+      {
+        "id": "rep2",
+        "name": "Employee Report",
+        "subtitle": "- Today"
+      },
+      {
+        "id": "rep3",
+        "name": "Refusals Report",
+        "subtitle": "- This Week"
+      },
+      {
+        "id": "rep4",
+        "name": "Monthly Performance",
+        "subtitle": "- This Month"
+      }
     ]
   },
   "resident-1-task-summary": {
